@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Models\Customer;
 use Illuminate\Http\Request;
 
@@ -10,10 +8,24 @@ class CustomerController extends Controller
     /**
      * Display a listing of customers.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Récupérer les clients avec pagination (10 par page)
-        $customers = Customer::paginate(10);
+        // Start with a base query
+        $query = Customer::query();
+
+        // Apply search filter if search parameter is present
+        if ($request->has('search') && $request->search != '') {
+            $searchTerm = $request->search;
+            $query->where(function($q) use ($searchTerm) {
+                $q->where('first_name', 'LIKE', "%{$searchTerm}%")
+                  ->orWhere('last_name', 'LIKE', "%{$searchTerm}%")
+                  ->orWhereRaw("CONCAT(first_name, ' ', last_name) LIKE ?", ["%{$searchTerm}%"]);
+            });
+        }
+
+        // Get paginated results (10 per page)
+        $customers = $query->paginate(10);
+
         return view('customers.index', compact('customers'));
     }
 

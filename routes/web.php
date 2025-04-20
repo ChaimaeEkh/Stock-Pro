@@ -11,7 +11,7 @@ Route::get('/', [AuthController::class, 'login'])->name('login');
 Route::post('/', [AuthController::class, 'handleLogin'])->name('handleLogin');
 
 
-// Secured routes
+// Secured routes for admin
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
@@ -30,4 +30,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
     Route::get('/products/category', [ProductController::class, 'byCategory'])->name('products.byCategory');
     Route::get('/orders/customer', [OrderController::class, 'byCustomer'])->name('orders.byCustomer');
+
+    //export excel route
+    Route::get('products-export', [ProductController::class, 'export'])->name('products.export');
+
+    //import excel route
+    Route::post('products-import', [ProductController::class, 'import'])->name('products.import');
 });

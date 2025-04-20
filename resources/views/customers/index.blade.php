@@ -11,6 +11,25 @@
         </button>
     </div>
 
+    <!-- Search Bar -->
+    <div class="mb-6">
+        <form action="{{ route('customers.index') }}" method="GET" class="flex">
+            <div class="relative flex-grow">
+                <input type="text" name="search" value="{{ request('search') }}"
+                       placeholder="Search by customer name..."
+                       class="w-full px-4 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                @if(request('search'))
+                    <a href="{{ route('customers.index') }}" class="absolute right-0 top-0 h-full flex items-center px-3 text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </a>
+                @endif
+            </div>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-r-lg">
+                <i class="fas fa-search"></i>
+            </button>
+        </form>
+    </div>
+
     <div class="overflow-x-auto bg-white rounded-lg shadow">
         <table class="min-w-full table-auto">
             <thead class="bg-gray-200">
@@ -44,13 +63,29 @@
                         </td>
                     </tr>
                 @endforeach
+
+                @if($customers->count() == 0)
+                    <tr>
+                        <td colspan="4" class="px-4 py-6 text-center text-gray-500">
+                            @if(request('search'))
+                                No customers found matching "{{ request('search') }}".
+                            @else
+                                No customers found.
+                            @endif
+                        </td>
+                    </tr>
+                @endif
             </tbody>
         </table>
     </div>
 
-    <!-- Pagination -->
+    <!-- Pagination with search parameter preserved -->
     <div class="mt-6">
-        {{ $customers->links() }}
+        @if(request('search'))
+            {{ $customers->appends(['search' => request('search')])->links() }}
+        @else
+            {{ $customers->links() }}
+        @endif
     </div>
 </div>
 

@@ -1,5 +1,7 @@
 <?php
 
+use App\Mail\MyTestMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\OrderController;
@@ -36,4 +38,13 @@ Route::middleware(['auth'])->group(function () {
 
     //import excel route
     Route::post('products-import', [ProductController::class, 'import'])->name('products.import');
+
+    //Mail route
+    Route::get('/testmail', function() {
+        $name = "Chaimae";
+    
+        // The email sending is done using the to method on the Mail facade
+        Mail::to('chaimaeelkhatib317@gmail.com')->send(new MyTestMail($name));
+        return 'mail sent';
+    });
 });

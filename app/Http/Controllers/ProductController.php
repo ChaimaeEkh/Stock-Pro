@@ -9,7 +9,6 @@ use App\Models\Category;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\ProductExport;
 use App\Imports\ProductImport;
-use Illuminate\Support\Facades\Log;
 
 
 class ProductController extends Controller
@@ -35,35 +34,34 @@ class ProductController extends Controller
         return Excel::download(new ProductExport, 'products.xlsx');
     }
 
-
-     /**
+      /**
     * @return \Illuminate\Support\Collection
     */
     public function import(Request $request)
-{
-    $request->validate([
-        'file' => 'required|file|mimes:xlsx,xls,csv',
-    ]);
+    {
+        try {
+            Excel::import(new ProductImport, $request->file('file'));
 
-    try {
-        Excel::import(new ProductImport, $request->file('file'));
-        return back()->with('success', 'Products imported successfully.');
-    } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
-        $failures = $e->failures();
-        $errors = [];
+            if ($request->ajax()) {
+                return response()->json(['message' => 'Products imported successfully.']);
+            }
 
-        foreach ($failures as $failure) {
-            $rowError = 'Row: ' . $failure->row() . ', ';
-            $rowError .= 'Attribute: ' . $failure->attribute() . ', ';
-            $rowError .= 'Error: ' . implode(', ', $failure->errors());
-            $errors[] = $rowError;
+            return back()->with('success', 'Products imported successfully.');
+
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            $failures = $e->failures();
+            $errors = [];
+
+            foreach ($failures as $failure) {
+                $errors[$failure->attribute()] = $failure->errors();
+            }
+
+            if ($request->ajax()) {
+                return response()->json(['errors' => $errors], 422);
+            }
+
+            return back()->withErrors($errors);
         }
-
-        return back()->withErrors(['file' => $errors])->withInput();
-    } catch (\Exception $e) {
-        Log::error('Excel import error: ' . $e->getMessage());
-        return back()->withErrors(['file' => 'An error occurred during import: ' . $e->getMessage()])->withInput();
     }
-}
 
 }

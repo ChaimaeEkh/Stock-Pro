@@ -225,5 +225,16 @@
     "Web Server is Down": "خادم الويب متوقف",
     "Whoops!": "عذراً!",
     "Yes": "نعم",
-    "You are receiving this email because we received a password reset request for your account.": "لقد استلمت هذا الإيميل لأننا استقبلنا طلباً لاستعادة كلمة مرور حسابك."
+    "You are receiving this email because we received a password reset request for your account.": "لقد استلمت هذا الإيميل لأننا استقبلنا طلباً لاستعادة كلمة مرور حسابك.",
+    "MyAdmin": "مديري",
+    "Dashboard": "لوحة التحكم",
+    "Customers": "العملاء",
+    "Products": "المنتجات",
+    "Admin Dashboard": "لوحة تحكم المشرف",
+    "Welcome to your dashboard. Choose an action below:": "مرحبًا بك في لوحة التحكم الخاصة بك. اختر إجراءً من الأسفل:",
+    "List of Customers": "قائمة العملاء",
+    "List of Suppliers": "قائمة الموردين",
+    "List of Products": "قائمة المنتجات",
+    "Products by Category": "المنتجات حسب الفئة",
+    "Orders by Customer": "الطلبات حسب العميل"
 }

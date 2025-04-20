@@ -225,5 +225,16 @@
     "Web Server is Down": "Le serveur Web est en panne",
     "Whoops!": "Oups !",
     "Yes": "Oui",
-    "You are receiving this email because we received a password reset request for your account.": "Vous recevez cet e-mail car nous avons reçu une demande de réinitialisation de mot de passe pour votre compte."
+    "You are receiving this email because we received a password reset request for your account.": "Vous recevez cet e-mail car nous avons reçu une demande de réinitialisation de mot de passe pour votre compte.",
+    "MyAdmin": "MonAdmin",
+    "Dashboard": "Tableau de bord",
+    "Customers": "Clients",
+    "Products": "Produits",
+    "Admin Dashboard": "Tableau de bord Admin",
+    "Welcome to your dashboard. Choose an action below:": "Bienvenue sur votre tableau de bord. Choisissez une action ci-dessous :",
+    "List of Customers": "Liste des clients",
+    "List of Suppliers": "Liste des fournisseurs",
+    "List of Products": "Liste des produits",
+    "Products by Category": "Produits par catégorie",
+    "Orders by Customer": "Commandes par client"
 }

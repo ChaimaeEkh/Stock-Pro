@@ -47,4 +47,13 @@ Route::middleware(['auth'])->group(function () {
         Mail::to('chaimaeelkhatib317@gmail.com')->send(new MyTestMail($name));
         return 'mail sent';
     });
+
+    //Language routes
+    Route::get('/changeLocale/{locale}', function (string $locale) {
+        if (in_array($locale, ['en', 'es', 'fr', 'ar'])) {
+            session()->put('locale', $locale);
+         }
+        return redirect()->back();
+    });
+    
 });

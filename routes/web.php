@@ -42,7 +42,7 @@ Route::middleware(['auth'])->group(function () {
     //Mail route
     Route::get('/testmail', function() {
         $name = "Chaimae";
-    
+
         // The email sending is done using the to method on the Mail facade
         Mail::to('chaimaeelkhatib317@gmail.com')->send(new MyTestMail($name));
         return 'mail sent';
@@ -55,5 +55,14 @@ Route::middleware(['auth'])->group(function () {
          }
         return redirect()->back();
     });
-    
+
+    //cookies
+    Route::get('/dashboard', 'App\Http\Controllers\DashboardController@index')->name('dashboard');
+    Route::post('/save-name', 'App\Http\Controllers\DashboardController@saveName')->name('save.name');
+
+    //sessions
+    Route::post('/save-session-name', 'App\Http\Controllers\DashboardController@saveSessionName')->name('save.session.name');
+    //upload
+    Route::post('/upload-avatar', 'App\Http\Controllers\DashboardController@uploadAvatar')->name('upload.avatar');
+
 });

@@ -13,6 +13,7 @@ use App\Models\Store;
 use App\Models\Supplier;
 use App\Models\Transaction;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class DatabaseSeeder extends Seeder
 {
@@ -79,5 +80,9 @@ class DatabaseSeeder extends Seeder
 
     // Create transactions for orders and stocks
     Transaction::factory(50)->create();
+    //create folders for stockage
+    Storage::disk('public')->makeDirectory('avatars');
+
+    $this->command->info('Dossiers de stockage créés aveac succès!');
 }
 }

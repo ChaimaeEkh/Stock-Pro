@@ -1,7 +1,5 @@
 @extends('layouts.app')
-
 @section('title', 'Customer Details')
-
 @section('content')
 <div class="container mx-auto px-6">
     <div class="mb-6">
@@ -64,7 +62,7 @@
     </div>
 </div>
 
-<!-- Delete Confirmation Modal -->
+<!-- Delete Modal -->
 <div id="deleteConfirmModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center">
     <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
         <div class="mb-4">
@@ -94,7 +92,7 @@
 
 @push('scripts')
 <script>
-    // Delete Confirmation Modal
+    // Delete Modal
     const deleteModal = document.getElementById('deleteConfirmModal');
     const cancelDeleteBtn = document.getElementById('cancelDelete');
     const deleteForm = document.getElementById('deleteForm');

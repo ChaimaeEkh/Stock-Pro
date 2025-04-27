@@ -10,10 +10,9 @@ class CustomerController extends Controller
      */
     public function index(Request $request)
     {
-        // Start with a base query
         $query = Customer::query();
 
-        // Apply search filter if search parameter is present
+        // Apply search filter
         if ($request->has('search') && $request->search != '') {
             $searchTerm = $request->search;
             $query->where(function($q) use ($searchTerm) {
@@ -23,7 +22,7 @@ class CustomerController extends Controller
             });
         }
 
-        // Get paginated results (10 per page)
+        // Get paginated 
         $customers = $query->paginate(10);
 
         return view('customers.index', compact('customers'));

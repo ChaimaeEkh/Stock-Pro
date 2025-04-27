@@ -44,7 +44,6 @@
 @push('styles')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 <style>
-    /* Base Container Styles */
     .container {
         width: 90%;
         max-width: 1200px;
@@ -52,7 +51,6 @@
         padding: 20px;
     }
 
-    /* Header & Actions Area */
     .header-actions {
         display: flex;
         justify-content: space-between;
@@ -71,8 +69,6 @@
         display: flex;
         gap: 10px;
     }
-
-    /* Button Styles */
     .btn {
         display: inline-flex;
         align-items: center;
@@ -95,7 +91,6 @@
         color: white;
     }
 
-    /* Table Styles */
     .products-table {
         background-color: white;
         border-radius: 8px;

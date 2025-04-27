@@ -79,7 +79,7 @@
         </table>
     </div>
 
-    <!-- Pagination with search parameter preserved -->
+    <!-- Pagination  -->
     <div class="mt-6">
         @if(request('search'))
             {{ $customers->appends(['search' => request('search')])->links() }}
@@ -137,7 +137,7 @@
     </div>
 </div>
 
-<!-- Delete Confirmation Modal -->
+<!-- Delete Modal -->
 <div id="deleteConfirmModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center">
     <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
         <div class="mb-4">
@@ -164,7 +164,7 @@
 @push('styles')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 <style>
-    /* Styles personnalisés pour la pagination */
+    /* Styles de la pagination */
     nav[aria-label="Pagination Navigation"] {
         @apply flex justify-center mt-4;
     }

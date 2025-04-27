@@ -1,12 +1,124 @@
 @extends('layouts.app')
-
 @section('title', 'Dashboard')
-
 @section('content')
 <div class="container mx-auto px-6">
     <h1 class="text-2xl font-bold mb-6">Admin Dashboard</h1>
-    <p class="text-gray-500 mb-6">Welcome to your dashboard. Choose an action below:</p>
 
+    @if(session('status'))
+        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6" role="alert">
+            {{ session('status') }}
+        </div>
+    @endif
+
+    @if(session('session_status'))
+        <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 mb-6" role="alert">
+            {{ session('session_status') }}
+        </div>
+    @endif
+
+    @if(session('avatar_status'))
+        <div class="bg-purple-100 border-l-4 border-purple-500 text-purple-700 p-4 mb-6" role="alert">
+            {{ session('avatar_status') }}
+        </div>
+    @endif
+
+    <!-- Section Avatar -->
+    <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+        <h2 class="text-xl font-semibold mb-4">Votre Avatar</h2>
+
+        <div class="flex flex-col md:flex-row items-start gap-8">
+            <div class="flex-shrink-0">
+                <div class="w-40 h-40 rounded-full overflow-hidden bg-gray-200 border-4 border-white shadow-lg">
+                    @if($user->avatar)
+                        <img src="{{ asset('storage/avatars/' . $user->avatar) }}" alt="Avatar de {{ $user->name }}" class="w-full h-full object-cover">
+                    @else
+                        <div class="w-full h-full flex items-center justify-center bg-gray-100 text-gray-500">
+                            <i class="fas fa-user text-4xl"></i>
+                        </div>
+                    @endif
+                </div>
+            </div>
+
+            <div class="flex-grow">
+                <form action="{{ route('upload.avatar') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="mb-4">
+                        <label for="avatar" class="block text-sm font-medium text-gray-700 mb-2">Choisir un nouvel avatar</label>
+                        <input type="file" name="avatar" id="avatar"
+                            class="block w-full text-sm text-gray-500
+                            file:mr-4 file:py-2 file:px-4
+                            file:rounded-md file:border-0
+                            file:text-sm file:font-semibold
+                            file:bg-blue-50 file:text-blue-700
+                            hover:file:bg-blue-100"
+                            accept="image/*"
+                            required>
+                        @error('avatar')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+
+                    <div>
+                        <button type="submit" class="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition duration-200">
+                            <i class="fas fa-upload mr-2"></i>Télécharger
+                        </button>
+                    </div>
+
+                    <p class="text-xs text-gray-500 mt-2">Formats acceptés: JPG, PNG, GIF. Taille maximale: 2MB.</p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        <!-- Formulaire Cookie -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold mb-4">Nom (stocké dans un cookie)</h2>
+
+            @if($userName)
+                <p class="text-gray-700 mb-4">Bienvenue, <span class="font-semibold">{{ $userName }}</span>!</p>
+            @endif
+
+            <form action="{{ route('save.name') }}" method="POST">
+                @csrf
+                <div class="flex flex-col sm:flex-row gap-4 items-end">
+                    <div class="flex-grow">
+                        <label for="nom" class="block text-sm font-medium text-gray-700 mb-1">Nom</label>
+                        <input type="text" name="nom" id="nom" value="{{ $userName ?? '' }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    </div>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200">
+                        <i class="fas fa-save mr-2"></i>{{ $userName ? 'Mettre à jour' : 'Enregistrer' }}
+                    </button>
+                </div>
+                <p class="text-xs text-gray-500 mt-2">Ce nom sera mémorisé même après la fermeture du navigateur (cookie).</p>
+            </form>
+        </div>
+
+        <!-- Formulaire Session -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold mb-4">Nom (stocké en session)</h2>
+
+            @if($sessionName)
+                <p class="text-gray-700 mb-4">Bonjour, <span class="font-semibold">{{ $sessionName }}</span>!</p>
+            @endif
+
+            <form action="{{ route('save.session.name') }}" method="POST">
+                @csrf
+                <div class="flex flex-col sm:flex-row gap-4 items-end">
+                    <div class="flex-grow">
+                        <label for="session_nom" class="block text-sm font-medium text-gray-700 mb-1">Nom</label>
+                        <input type="text" name="session_nom" id="session_nom" value="{{ $sessionName ?? '' }}" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    </div>
+                    <button type="submit" class="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition duration-200">
+                        <i class="fas fa-save mr-2"></i>{{ $sessionName ? 'Mettre à jour' : 'Enregistrer' }}
+                    </button>
+                </div>
+                <p class="text-xs text-gray-500 mt-2">Ce nom sera perdu à la fermeture du navigateur (session).</p>
+            </form>
+        </div>
+    </div>
+
+    <p class="text-gray-500 mb-6">Choose an action below:</p>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
         <a href="{{ route('customers.index') }}" class="dashboard-card">
             <div class="icon-box bg-blue-100 text-blue-600">
@@ -41,7 +153,6 @@
     </div>
 </div>
 @endsection
-
 @push('styles')
 <!-- Font Awesome for icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />

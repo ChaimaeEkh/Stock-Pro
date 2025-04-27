@@ -18,7 +18,6 @@
                 <li><a href="{{ route('dashboard') }}" class="hover:text-blue-500">{{ __('Dashboard') }}</a></li>
                 <li><a href="{{ route('customers.index') }}" class="hover:text-blue-500">{{ __('Customers') }}</a></li>
                 <li><a href="{{ route('products.index') }}" class="hover:text-blue-500">{{ __('Products') }}</a></li>
-                <li><a href="#" class="hover:text-blue-500">{{ __('Logout') }}</a></li>
             </ul>
             <!-- Language Selector -->
             <select name="selectLocale" id="selectLocale" class="border rounded px-2 py-1">
@@ -38,7 +37,7 @@
         © {{ date('Y') }} MyAdmin. {{ __('All rights reserved.') }}
     </footer>
     @stack('scripts')
-   
+
     <script>
     $(document).ready(function() {
         $("#selectLocale").on('change', function(){

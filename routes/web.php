@@ -1,6 +1,6 @@
 <?php
-
 use App\Mail\MyTestMail;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -9,9 +9,13 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\SupplierController;
 
+// Public routes
 Route::get('/', [AuthController::class, 'login'])->name('login');
 Route::post('/', [AuthController::class, 'handleLogin'])->name('handleLogin');
 
+// Registration routes (should be available to guests)
+Route::get('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/register', [AuthController::class, 'handleRegister'])->name('handleRegister');
 
 // Secured routes for admin
 Route::middleware(['auth'])->group(function () {
@@ -42,7 +46,6 @@ Route::middleware(['auth'])->group(function () {
     //Mail route
     Route::get('/testmail', function() {
         $name = "Chaimae";
-
         // The email sending is done using the to method on the Mail facade
         Mail::to('chaimaeelkhatib317@gmail.com')->send(new MyTestMail($name));
         return 'mail sent';
@@ -62,7 +65,13 @@ Route::middleware(['auth'])->group(function () {
 
     //sessions
     Route::post('/save-session-name', 'App\Http\Controllers\DashboardController@saveSessionName')->name('save.session.name');
+
     //upload
     Route::post('/upload-avatar', 'App\Http\Controllers\DashboardController@uploadAvatar')->name('upload.avatar');
 
+    //logout
+    Route::get('/logout', function () {
+        Auth::logout();
+        return redirect('/login');
+    })->name('custom.logout');
 });

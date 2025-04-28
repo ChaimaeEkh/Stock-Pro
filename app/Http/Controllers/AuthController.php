@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Log;
 use App\Models\User;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
@@ -52,14 +53,20 @@ class AuthController extends Controller
                         ->withInput();
         }
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        try {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+            ]);
 
-        Auth::login($user);
+            Auth::login($user);
+            return redirect()->route('dashboard');
+        } catch (\Exception $e) {
+            return redirect()->route('register')
+                    ->with('error', 'Une erreur est survenue lors de la création du compte: ' . $e->getMessage())
+                    ->withInput();
+        }
 
-        return redirect()->route('dashboard');
     }
 }

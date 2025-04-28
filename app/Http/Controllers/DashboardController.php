@@ -50,27 +50,22 @@ class DashboardController extends Controller
         $request->validate([
             'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
-        // Récupérer l'utilisateur correctement
+        // Récupérer l'utilisateur
         $user = Auth::user();
 
         if (!$user) {
             return redirect()->route('dashboard')->with('error', 'Utilisateur non trouvé.');
         }
-
         // Supprimer l'ancien avatar s'il existe
         if ($user->avatar && $user->avatar !== 'default.png') {
             Storage::disk('public')->delete('avatars/' . $user->avatar);
         }
-
-        // Générer un nom de fichier unique
+        // Générer un nom de fichier
         $avatarName = time() . '.' . $request->avatar->extension();
 
         // Enregistrer l'image dans le dossier storage/app/public/avatars
         $request->avatar->storeAs('avatars', $avatarName, 'public');
-
         // Mettre à jour l'utilisateur avec le nouveau nom d'avatar
-        // Approche alternative pour mettre à jour l'utilisateur (sans utiliser save())
         \App\Models\User::where('id', $user->id)->update(['avatar' => $avatarName]);
 
         return redirect()->route('dashboard')->with('avatar_status', 'Avatar mis à jour avec succès!');

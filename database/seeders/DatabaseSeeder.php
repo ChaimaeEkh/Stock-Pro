@@ -4,15 +4,16 @@ namespace Database\Seeders;
 
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\Category;
-use App\Models\Customer;
 use App\Models\Order;
-use App\Models\Product;
 use App\Models\Stock;
 use App\Models\Store;
+use App\Models\Product;
+use App\Models\Category;
+use App\Models\Customer;
 use App\Models\Supplier;
 use App\Models\Transaction;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class DatabaseSeeder extends Seeder
@@ -47,7 +48,7 @@ class DatabaseSeeder extends Seeder
         User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@gmail.com',
-            'password' => '123456',
+            'password' => Hash::make('123456'),  
             'role' => 'admin',
         ]);
 
